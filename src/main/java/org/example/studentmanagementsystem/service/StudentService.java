@@ -51,6 +51,10 @@ public class StudentService {
         Student student = studentRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Student not found with the provided ID"));
 
+        if (studentRepository.existsByEmailAndIdNot(request.getEmail(), id)) {
+            throw new DuplicateResourceException("Email already used by another student");
+        }
+
         student.setName(request.getName());
         student.setEmail(request.getEmail());
         student.setAge(request.getAge());

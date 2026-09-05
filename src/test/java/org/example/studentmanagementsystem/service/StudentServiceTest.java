@@ -71,6 +71,30 @@ public class StudentServiceTest {
     }
 
     @Test
+    void updateStudent_ThrowDuplicateResourceException_whenEmailBelongsToAnotherStudent() {
+
+        Student existingStudent = new Student();
+        existingStudent.setId(1L);
+        existingStudent.setName("Rahul");
+        existingStudent.setEmail("rahul@gmail.com");
+        existingStudent.setAge(20);
+
+        when(studentRepository.findById(1L)).thenReturn(Optional.of(existingStudent));
+
+        StudentRequestDto request = new StudentRequestDto();
+        request.setName("Rahul Saini");
+        request.setEmail("taken@gmail.com");
+        request.setAge(21);
+
+        when(studentRepository.existsByEmailAndIdNot("taken@gmail.com", 1L)).thenReturn(true);
+
+        assertThrows(DuplicateResourceException.class,
+                () -> studentService.updateStudent(1L, request));
+
+        verify(studentRepository, never()).save(any());
+    }
+
+    @Test
     void updateStudent_ThrowResourceNotFoundException_whenStudentDoesNotExist() {
 
         when(studentRepository.findById(10L)).thenReturn(Optional.empty());
