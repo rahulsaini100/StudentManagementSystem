@@ -53,7 +53,7 @@ public class SubjectService {
                 .orElseThrow(() -> new ResourceNotFoundException("Subject not Exits with the given Id"));
 
         if (studentSubjectRepository.existsBySubjectId(id)) {
-            throw new SubjectAssignedException("Subject assigned with student can not be deleted");
+            throw new SubjectAssignedException("Subject assigned with student so can not be deleted");
         }
 
         subjectRepository.delete(subject);
