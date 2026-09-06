@@ -29,13 +29,14 @@ public class StudentService {
     public StudentResponseDto addStudent(StudentRequestDto request) {
 
         if (studentRepository.existsByEmail(request.getEmail())) {
-            throw new DuplicateResourceException("Student already present with provided email");
+            throw new DuplicateResourceException("Student already present with given email: "+request.getEmail()+". Please check!!!");
         }
         Student student = new Student();
         student.setName(request.getName());
         student.setEmail(request.getEmail());
         student.setAge(request.getAge());
         student.setCreatedAt(LocalDateTime.now());
+        student.setUpdatedAt(LocalDateTime.now());
 
         Student saved = studentRepository.save(student);
         StudentResponseDto response = new StudentResponseDto();
@@ -49,10 +50,10 @@ public class StudentService {
 
     public StudentResponseDto updateStudent(Long id, StudentRequestDto request) {
         Student student = studentRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Student not found with the provided ID"));
+                .orElseThrow(() -> new ResourceNotFoundException("Student not found with the given Id. Please check!!!"));
 
         if (studentRepository.existsByEmailAndIdNot(request.getEmail(), id)) {
-            throw new DuplicateResourceException("Email already used by another student");
+            throw new DuplicateResourceException("Given Email "+request.getEmail()+" already used by another student. Please check!!!");
         }
 
         student.setName(request.getName());

@@ -28,13 +28,13 @@ public class StudentSubjectService {
     public AssignSubjectResponseDto assignSubject(Long studentId, Long subjectId) {
 
         Student student = studentRepository.findById(studentId)
-                .orElseThrow(() -> new ResourceNotFoundException("Student not found: " + studentId));
+                .orElseThrow(() -> new ResourceNotFoundException("Given Student not found: " + studentId+". Please check!!!"));
 
         Subject subject = subjectRepository.findById(subjectId)
-                .orElseThrow(() -> new ResourceNotFoundException("Subject not found: " + subjectId));
+                .orElseThrow(() -> new ResourceNotFoundException("Given Subject not found: " + subjectId+". Please check!!!"));
 
         if (studentSubjectRepository.existsByStudentIdAndSubjectId(studentId, subjectId)) {
-            throw new DuplicateResourceException("Subject already assigned to this student");
+            throw new DuplicateResourceException("Subject already assigned to this student. Please check and choose another subject.");
         }
 
         StudentSubject assignment = new StudentSubject();

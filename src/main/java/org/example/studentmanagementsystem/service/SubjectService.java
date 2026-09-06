@@ -6,7 +6,6 @@ import org.example.studentmanagementsystem.entity.Subject;
 import org.example.studentmanagementsystem.exception.DuplicateResourceException;
 import org.example.studentmanagementsystem.exception.ResourceNotFoundException;
 import org.example.studentmanagementsystem.exception.SubjectAssignedException;
-import org.example.studentmanagementsystem.repository.StudentRepository;
 import org.example.studentmanagementsystem.repository.StudentSubjectRepository;
 import org.example.studentmanagementsystem.repository.SubjectRepository;
 import org.springframework.stereotype.Service;
@@ -28,10 +27,10 @@ public class SubjectService {
     public SubjectResponseDto addSubject(SubjectRequestDto request) {
 
         if (subjectRepository.existsByName(request.getName())) {
-            throw new DuplicateResourceException("Subject Already Exists with the given name");
+            throw new DuplicateResourceException("Subject Already Exists with the given name: "+request.getName()+". Please check!!!");
         }
         if (subjectRepository.existsByCode(request.getCode())) {
-            throw new DuplicateResourceException("Subject Already Exists with the given code");
+            throw new DuplicateResourceException("Subject Already Exists with the given code: "+request.getCode()+". Please check!!!");
         }
 
         Subject subject = new Subject();
@@ -50,10 +49,10 @@ public class SubjectService {
     public void deleteSubject(Long id) {
 
         Subject subject = subjectRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Subject not Exits with the given Id"));
+                .orElseThrow(() -> new ResourceNotFoundException("Subject not Exits with the given Id. Please check!!!"));
 
         if (studentSubjectRepository.existsBySubjectId(id)) {
-            throw new SubjectAssignedException("Subject assigned with student so can not be deleted");
+            throw new SubjectAssignedException("Subject assigned with student so can not be deleted. Please check!!!");
         }
 
         subjectRepository.delete(subject);
