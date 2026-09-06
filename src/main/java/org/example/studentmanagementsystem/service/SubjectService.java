@@ -8,6 +8,7 @@ import org.example.studentmanagementsystem.exception.ResourceNotFoundException;
 import org.example.studentmanagementsystem.exception.SubjectAssignedException;
 import org.example.studentmanagementsystem.repository.StudentSubjectRepository;
 import org.example.studentmanagementsystem.repository.SubjectRepository;
+import org.jspecify.annotations.NonNull;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -39,11 +40,7 @@ public class SubjectService {
         subject.setCreatedAt(LocalDateTime.now());
 
         Subject saved = subjectRepository.save(subject);
-        SubjectResponseDto responseDto = new SubjectResponseDto();
-        responseDto.setId(saved.getId());
-        responseDto.setName(saved.getName());
-        responseDto.setCode(saved.getCode());
-        return responseDto;
+        return SubjectResponseDto.getSubjectResponseDto(saved);
     }
 
     public void deleteSubject(Long id) {
@@ -61,10 +58,7 @@ public class SubjectService {
     public List<SubjectResponseDto> getAllSubjects(){
         List<SubjectResponseDto> allSubjects = new ArrayList<>();
         for(Subject subject : subjectRepository.findAll()) {
-            SubjectResponseDto responseDto = new SubjectResponseDto();
-            responseDto.setId(subject.getId());
-            responseDto.setName(subject.getName());
-            responseDto.setCode(subject.getCode());
+            SubjectResponseDto responseDto = SubjectResponseDto.getSubjectResponseDto(subject);
             allSubjects.add(responseDto);
         }
         return allSubjects;

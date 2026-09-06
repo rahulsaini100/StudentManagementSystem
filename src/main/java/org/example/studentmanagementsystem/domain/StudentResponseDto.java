@@ -1,5 +1,7 @@
 package org.example.studentmanagementsystem.domain;
 
+import org.example.studentmanagementsystem.entity.Student;
+
 import java.util.List;
 
 public class StudentResponseDto {
@@ -47,5 +49,14 @@ public class StudentResponseDto {
 
     public void setSubjects(List<SubjectResponseDto> subjects) {
         this.subjects = subjects;
+    }
+
+    public static StudentResponseDto getStudentResponseDto(Student saved) {
+        StudentResponseDto response = new StudentResponseDto();
+        response.setId(saved.getId());
+        response.setName(saved.getName());
+        response.setEmail(saved.getEmail());
+        response.setAge(saved.getAge());
+        return response;
     }
 }

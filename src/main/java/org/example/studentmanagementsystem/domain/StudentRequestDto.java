@@ -2,6 +2,9 @@ package org.example.studentmanagementsystem.domain;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import org.example.studentmanagementsystem.entity.Student;
+
+import java.time.LocalDateTime;
 
 public class StudentRequestDto {
     @NotBlank(message = "Name is required")
@@ -33,5 +36,15 @@ public class StudentRequestDto {
 
     public void setAge(Integer age) {
         this.age = age;
+    }
+
+    public static Student getStudent(StudentRequestDto request) {
+        Student student = new Student();
+        student.setName(request.getName());
+        student.setEmail(request.getEmail());
+        student.setAge(request.getAge());
+        student.setCreatedAt(LocalDateTime.now());
+        student.setUpdatedAt(LocalDateTime.now());
+        return student;
     }
 }

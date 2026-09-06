@@ -1,5 +1,7 @@
 package org.example.studentmanagementsystem.domain;
 
+import org.example.studentmanagementsystem.entity.Subject;
+
 public class SubjectResponseDto {
     private Long id;
     private String name;
@@ -27,5 +29,13 @@ public class SubjectResponseDto {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public static SubjectResponseDto getSubjectResponseDto(Subject subject) {
+        SubjectResponseDto responseDto = new SubjectResponseDto();
+        responseDto.setId(subject.getId());
+        responseDto.setName(subject.getName());
+        responseDto.setCode(subject.getCode());
+        return responseDto;
     }
 }

@@ -9,6 +9,7 @@ import org.example.studentmanagementsystem.exception.ResourceNotFoundException;
 import org.example.studentmanagementsystem.repository.StudentRepository;
 import org.example.studentmanagementsystem.repository.StudentSubjectRepository;
 import org.example.studentmanagementsystem.repository.SubjectRepository;
+import org.jspecify.annotations.NonNull;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -43,12 +44,7 @@ public class StudentSubjectService {
         assignment.setAssignedAt(LocalDateTime.now());
 
         StudentSubject saved = studentSubjectRepository.save(assignment);
-
-        AssignSubjectResponseDto response = new AssignSubjectResponseDto();
-        response.setStudentId(saved.getStudent().getId());
-        response.setSubjectId(saved.getSubject().getId());
-        response.setAssignedAt(saved.getAssignedAt());
-
-        return response;
+        return AssignSubjectResponseDto.getAssignSubjectResponseDto(saved);
     }
+
 }

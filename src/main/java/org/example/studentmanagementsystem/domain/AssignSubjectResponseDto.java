@@ -1,5 +1,7 @@
 package org.example.studentmanagementsystem.domain;
 
+import org.example.studentmanagementsystem.entity.StudentSubject;
+
 import java.time.LocalDateTime;
 
 public class AssignSubjectResponseDto {
@@ -29,5 +31,13 @@ public class AssignSubjectResponseDto {
 
     public void setAssignedAt(LocalDateTime assignedAt) {
         this.assignedAt = assignedAt;
+    }
+
+    public static AssignSubjectResponseDto getAssignSubjectResponseDto(StudentSubject saved) {
+        AssignSubjectResponseDto response = new AssignSubjectResponseDto();
+        response.setStudentId(saved.getStudent().getId());
+        response.setSubjectId(saved.getSubject().getId());
+        response.setAssignedAt(saved.getAssignedAt());
+        return response;
     }
 }

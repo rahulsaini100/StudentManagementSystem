@@ -10,6 +10,7 @@ import org.example.studentmanagementsystem.exception.DuplicateResourceException;
 import org.example.studentmanagementsystem.exception.ResourceNotFoundException;
 import org.example.studentmanagementsystem.repository.StudentRepository;
 import org.example.studentmanagementsystem.repository.StudentSubjectRepository;
+import org.jspecify.annotations.NonNull;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -31,21 +32,9 @@ public class StudentService {
         if (studentRepository.existsByEmail(request.getEmail())) {
             throw new DuplicateResourceException("Student already present with given email: "+request.getEmail()+". Please check!!!");
         }
-        Student student = new Student();
-        student.setName(request.getName());
-        student.setEmail(request.getEmail());
-        student.setAge(request.getAge());
-        student.setCreatedAt(LocalDateTime.now());
-        student.setUpdatedAt(LocalDateTime.now());
-
+        Student student = StudentRequestDto.getStudent(request);
         Student saved = studentRepository.save(student);
-        StudentResponseDto response = new StudentResponseDto();
-        response.setId(saved.getId());
-        response.setName(saved.getName());
-        response.setEmail(saved.getEmail());
-        response.setAge(saved.getAge());
-
-        return response;
+        return StudentResponseDto.getStudentResponseDto(saved);
     }
 
     public StudentResponseDto updateStudent(Long id, StudentRequestDto request) {
@@ -61,14 +50,7 @@ public class StudentService {
         student.setAge(request.getAge());
         student.setUpdatedAt(LocalDateTime.now());
         Student saved = studentRepository.save(student);
-
-        StudentResponseDto response = new StudentResponseDto();
-        response.setId(saved.getId());
-        response.setName(saved.getName());
-        response.setEmail(saved.getEmail());
-        response.setAge(saved.getAge());
-
-        return response;
+        return StudentResponseDto.getStudentResponseDto(saved);
     }
 
     public List<StudentResponseDto> getAllStudentsWithSubjects() {
@@ -87,11 +69,7 @@ public class StudentService {
                 subjectDto.setCode(subject.getCode());
                 subjectDtos.add(subjectDto);
             }
-            StudentResponseDto studentDto = new StudentResponseDto();
-            studentDto.setId(student.getId());
-            studentDto.setName(student.getName());
-            studentDto.setEmail(student.getEmail());
-            studentDto.setAge(student.getAge());
+            StudentResponseDto studentDto = StudentResponseDto.getStudentResponseDto(student);
             studentDto.setSubjects(subjectDtos);
 
             result.add(studentDto);
